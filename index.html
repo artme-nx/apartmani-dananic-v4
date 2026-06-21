@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apartmani Dananić — Vodice</title>
+<meta name="description" content="Apartmani Dananić — dva moderna apartmana u mirnom dijelu Vodica, samo 3 minute od plaže. 55 m², 2 spavaće sobe, balkon, klima, parking. Od 90 €.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌊</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#F5F4F1;
+  --bg-alt:#EBEAE2;
+  --text-dark:#2C2924;
+  --text-mid:#7C7570;
+  --stone:#9C938C;
+  --accent:#C4612A;
+  --line:rgba(44,41,36,.13);
+  --font-display:'EB Garamond', Georgia, serif;
+  --font-body:'DM Sans', system-ui, sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+body{
+  background:var(--bg);
+  color:var(--text-dark);
+  font-family:var(--font-body);
+  font-weight:400;
+  line-height:1.7;
+  font-size:17px;
+  overflow-x:hidden;
+}
+body.no-scroll{overflow:hidden}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+::selection{background:var(--accent);color:#fff}
+
+.eyebrow{
+  font-family:var(--font-body);
+  text-transform:uppercase;
+  font-size:11px;
+  letter-spacing:.18em;
+  font-weight:500;
+  color:var(--text-mid);
+}
+h1,h2,h3{font-family:var(--font-display);font-weight:400;line-height:1.08}
+.italic{font-style:italic}
+
+/* ============ PRELOADER ============ */
+.preloader{
+  position:fixed;inset:0;z-index:9000;
+  background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+}
+.preloader-inner{text-align:center}
+.preloader-name{
+  font-family:var(--font-display);
+  font-size:clamp(34px,6vw,64px);
+  letter-spacing:.04em;
+  opacity:0;
+}
+.preloader-sub{
+  margin-top:.6rem;
+  font-size:11px;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--stone);opacity:0;
+}
+
+/* ============ CURSOR ============ */
+.cursor{
+  position:fixed;top:0;left:0;width:9px;height:9px;
+  border-radius:50%;background:var(--accent);
+  pointer-events:none;z-index:9999;
+  transform:translate(-50%,-50%);
+  mix-blend-mode:normal;will-change:transform;
+}
+.cursor-ring{
+  position:fixed;top:0;left:0;width:38px;height:38px;
+  border:1px solid var(--stone);border-radius:50%;
+  pointer-events:none;z-index:9998;
+  transform:translate(-50%,-50%);will-change:transform;
+}
+@media (hover:none),(pointer:coarse){.cursor,.cursor-ring{display:none!important}}
+
+/* ============ HEADER ============ */
+header{
+  position:fixed;top:0;left:0;width:100%;z-index:800;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:26px clamp(20px,5vw,64px);
+  transition:transform .5s var(--ease), background .5s var(--ease), padding .5s var(--ease);
+  mix-blend-mode:normal;
+}
+header.scrolled{
+  background:rgba(245,244,241,.88);
+  backdrop-filter:blur(12px);
+  padding-top:18px;padding-bottom:18px;
+  border-bottom:1px solid var(--line);
+}
+header.hidden{transform:translateY(-100%)}
+.logo{
+  font-family:var(--font-display);
+  font-size:22px;letter-spacing:.02em;color:#fff;
+  transition:color .5s var(--ease);
+}
+header.scrolled .logo,header.light .logo{color:var(--text-dark)}
+nav.main{display:flex;align-items:center;gap:38px}
+nav.main a:not(.btn-upit){
+  font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,255,255,.92);position:relative;
+  transition:color .5s var(--ease);
+}
+header.scrolled nav.main a:not(.btn-upit),
+header.light nav.main a:not(.btn-upit){color:var(--text-mid)}
+nav.main a:not(.btn-upit)::after{
+  content:'';position:absolute;left:0;bottom:-5px;width:0;height:1px;
+  background:var(--accent);transition:width .4s var(--ease);
+}
+nav.main a:not(.btn-upit):hover::after{width:100%}
+
+.btn-upit{
+  display:inline-block;
+  background:var(--accent);color:#fff;
+  font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:500;
+  padding:12px 24px;border-radius:2px;
+  transition:background .35s var(--ease), transform .35s var(--ease);
+}
+.btn-upit:hover{background:#a84f1f;transform:translateY(-1px)}
+
+.burger{display:none;flex-direction:column;gap:6px;cursor:pointer;width:30px;z-index:801}
+.burger span{display:block;height:1.5px;width:100%;background:#fff;transition:.4s var(--ease)}
+header.scrolled .burger span,header.light .burger span{background:var(--text-dark)}
+.menu-open .burger span{background:var(--text-dark)}
+.menu-open .burger span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+.menu-open .burger span:nth-child(2){opacity:0}
+.menu-open .burger span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+
+/* mobile overlay menu */
+.mobile-menu{
+  position:fixed;inset:0;z-index:790;background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  opacity:0;pointer-events:none;transition:opacity .5s var(--ease);
+}
+.menu-open .mobile-menu{opacity:1;pointer-events:all}
+.mobile-menu a{
+  font-family:var(--font-display);font-size:34px;color:var(--text-dark);
+  opacity:0;transform:translateY(14px);transition:.5s var(--ease);
+}
+.menu-open .mobile-menu a{opacity:1;transform:none}
+.menu-open .mobile-menu a:nth-child(1){transition-delay:.1s}
+.menu-open .mobile-menu a:nth-child(2){transition-delay:.16s}
+.menu-open .mobile-menu a:nth-child(3){transition-delay:.22s}
+.menu-open .mobile-menu a:nth-child(4){transition-delay:.28s}
+.menu-open .mobile-menu a:nth-child(5){transition-delay:.34s}
+.mobile-menu .btn-upit{font-size:13px;margin-top:24px}
+
+/* ============ HERO ============ */
+.hero{position:relative;height:100vh;min-height:600px;overflow:hidden}
+.hero-img-wrap{position:absolute;inset:0;overflow:hidden}
+.hero-img{
+  width:100%;height:120%;object-fit:cover;
+  will-change:transform;
+}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,18,15,.32) 0%,rgba(20,18,15,.12) 40%,rgba(20,18,15,.42) 100%)}
+.hero-content{
+  position:absolute;inset:0;z-index:3;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;color:#fff;padding:0 20px;
+}
+.hero-eyebrow{color:rgba(255,255,255,.82);margin-bottom:24px;overflow:hidden}
+.hero-eyebrow span{display:inline-block}
+.hero h1{
+  font-size:clamp(58px,11vw,140px);
+  letter-spacing:.02em;font-weight:400;
+}
+.hero h1 .word{display:inline-block;overflow:hidden;vertical-align:top}
+.hero h1 .word-inner{display:inline-block}
+.hero-tag{
+  font-family:var(--font-display);font-style:italic;
+  font-size:clamp(17px,2.4vw,24px);
+  color:rgba(255,255,255,.9);margin-top:18px;letter-spacing:.01em;
+}
+.scroll-ind{
+  position:absolute;bottom:34px;left:50%;transform:translateX(-50%);z-index:4;
+  display:flex;flex-direction:column;align-items:center;gap:10px;
+  color:rgba(255,255,255,.85);font-size:10px;letter-spacing:.24em;text-transform:uppercase;
+}
+.scroll-ind .line{width:1px;height:40px;background:rgba(255,255,255,.55);overflow:hidden;position:relative}
+.scroll-ind .line::after{content:'';position:absolute;top:-100%;left:0;width:100%;height:100%;background:#fff;animation:scrolldown 2.2s var(--ease) infinite}
+@keyframes scrolldown{0%{top:-100%}60%,100%{top:100%}}
+
+/* ============ SECTION SHELL ============ */
+section{position:relative}
+.wrap{max-width:1280px;margin:0 auto;padding:0 clamp(20px,5vw,64px)}
+.sec-pad{padding:clamp(90px,14vh,180px) 0}
+
+/* manifest */
+.manifest{text-align:left}
+.manifest .eyebrow{display:block;margin-bottom:36px}
+.manifest p{
+  font-family:var(--font-display);
+  font-size:clamp(26px,3.6vw,46px);
+  line-height:1.32;font-weight:400;
+  max-width:780px;color:var(--text-dark);
+}
+.manifest p .muted{color:var(--stone)}
+
+/* reveal util */
+.reveal-line{overflow:hidden;display:block}
+[data-fade]{opacity:0;transform:translateY(26px)}
+
+/* clip reveal images */
+.clip-img{overflow:hidden}
+.clip-img img{width:100%;height:100%;object-fit:cover;will-change:transform}
+
+/* ============ APARTMANI BLOCKS ============ */
+.apart-head{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:20px;margin-bottom:clamp(48px,8vh,90px)}
+.apart-head h2{font-size:clamp(40px,6vw,82px);letter-spacing:.01em}
+.apart-head .eyebrow{margin-bottom:14px;display:block}
+
+.apt{
+  display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,6vw,90px);
+  align-items:center;margin-bottom:clamp(80px,14vh,150px);
+}
+.apt:last-child{margin-bottom:0}
+.apt.rev .apt-media{order:2}
+.apt-media{position:relative}
+.apt-media .clip-img{aspect-ratio:4/5;border-radius:2px}
+.apt-media .badge{
+  position:absolute;top:18px;left:18px;z-index:2;
+  background:rgba(245,244,241,.92);backdrop-filter:blur(4px);
+  font-size:10px;letter-spacing:.2em;text-transform:uppercase;
+  padding:8px 14px;color:var(--text-dark);
+}
+.apt-tag{color:var(--accent);font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:500;display:block;margin-bottom:16px}
+.apt h3{font-size:clamp(36px,4.5vw,58px);margin-bottom:8px}
+.apt h3 .small{font-style:italic;color:var(--stone);font-size:.4em;letter-spacing:.05em;display:block;margin-top:8px}
+.apt p.desc{color:var(--text-mid);max-width:440px;margin:22px 0 30px}
+.specs{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border-top:1px solid var(--line);max-width:440px}
+.specs li{
+  list-style:none;padding:15px 0;border-bottom:1px solid var(--line);
+  font-size:13px;letter-spacing:.04em;color:var(--text-dark);
+  display:flex;flex-direction:column;gap:3px;
+}
+.specs li:nth-child(odd){padding-right:18px}
+.specs li .k{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--stone)}
+.apt .price{margin-top:26px;font-family:var(--font-display);font-size:24px}
+.apt .price span{font-size:13px;font-family:var(--font-body);color:var(--text-mid);letter-spacing:.04em}
+.apt-cta{display:inline-flex;align-items:center;gap:10px;margin-top:24px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:500}
+.apt-cta .arr{transition:transform .35s var(--ease)}
+.apt-cta:hover .arr{transform:translateX(6px)}
+
+/* ============ SADRŽAJI ============ */
+.amen{background:var(--bg-alt)}
+.amen-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(40px,7vw,100px);align-items:center}
+.amen .eyebrow{display:block;margin-bottom:28px}
+.amen h2{font-size:clamp(34px,4.6vw,60px);line-height:1.12;margin-bottom:24px}
+.amen-intro{color:var(--text-mid);max-width:420px}
+.amen-list{list-style:none;border-top:1px solid var(--line)}
+.amen-list li{
+  display:flex;align-items:baseline;gap:18px;
+  padding:20px 0;border-bottom:1px solid var(--line);
+}
+.amen-list li .num{font-family:var(--font-display);font-style:italic;color:var(--stone);font-size:15px;min-width:34px}
+.amen-list li .lbl{font-size:17px;color:var(--text-dark)}
+.amen-list li .sub{margin-left:auto;font-size:12px;color:var(--stone);letter-spacing:.04em}
+
+/* ============ LOKACIJA ============ */
+.loc-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,6vw,80px);align-items:center}
+.loc .eyebrow{display:block;margin-bottom:26px}
+.loc h2{font-size:clamp(34px,4.6vw,60px);line-height:1.14;margin-bottom:24px}
+.loc p{color:var(--text-mid);max-width:440px;margin-bottom:20px}
+.loc-facts{display:flex;gap:40px;margin-top:34px;flex-wrap:wrap}
+.loc-facts .f{display:flex;flex-direction:column;gap:4px}
+.loc-facts .f .big{font-family:var(--font-display);font-size:clamp(32px,4vw,46px);color:var(--text-dark)}
+.loc-facts .f .cap{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--stone)}
+.map-wrap{position:relative;aspect-ratio:1/1;overflow:hidden;border-radius:2px}
+.map-wrap iframe{width:100%;height:100%;border:0;filter:grayscale(.4) contrast(1.02)}
+
+/* ============ GALERIJA ============ */
+.gal .eyebrow{display:block;margin-bottom:14px}
+.gal h2{font-size:clamp(34px,4.6vw,60px);margin-bottom:clamp(40px,7vh,72px)}
+.gal-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:clamp(10px,1.4vw,20px)}
+.gal-grid .clip-img{border-radius:2px}
+.g1{grid-column:span 7;aspect-ratio:3/2}
+.g2{grid-column:span 5;aspect-ratio:3/4;align-self:end}
+.g3{grid-column:span 5;aspect-ratio:4/5}
+.g4{grid-column:span 7;aspect-ratio:3/2;align-self:start}
+.g5{grid-column:span 4;aspect-ratio:1/1}
+.g6{grid-column:span 8;aspect-ratio:16/9}
+.gal-grid img{transition:transform 1.2s var(--ease)}
+.gal-grid .clip-img:hover img{transform:scale(1.05)}
+
+/* ============ UPIT FORM ============ */
+.upit{background:var(--bg-alt)}
+.upit-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(40px,7vw,100px)}
+.upit .eyebrow{display:block;margin-bottom:26px}
+.upit h2{font-size:clamp(36px,5vw,68px);line-height:1.08;margin-bottom:28px}
+.upit-intro{color:var(--text-mid);max-width:380px;margin-bottom:40px}
+.upit-contact{border-top:1px solid var(--line)}
+.upit-contact a{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid var(--line);transition:color .3s}
+.upit-contact a:hover{color:var(--accent)}
+.upit-contact .k{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--stone)}
+.upit-contact .v{font-family:var(--font-display);font-size:18px}
+
+form .row{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+form .field{margin-bottom:28px;position:relative}
+form label{display:block;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--stone);margin-bottom:9px}
+form input,form textarea,form select{
+  width:100%;background:transparent;border:0;border-bottom:1px solid var(--line);
+  padding:9px 0;font-family:var(--font-body);font-size:16px;color:var(--text-dark);
+  transition:border-color .35s var(--ease);
+}
+form input:focus,form textarea:focus,form select:focus{outline:none;border-color:var(--accent)}
+form textarea{resize:vertical;min-height:80px}
+form .btn-submit{
+  background:var(--accent);color:#fff;border:0;cursor:pointer;
+  font-family:var(--font-body);font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;
+  padding:17px 40px;border-radius:2px;margin-top:8px;
+  transition:background .35s var(--ease),transform .35s var(--ease);
+}
+form .btn-submit:hover{background:#a84f1f;transform:translateY(-1px)}
+.form-note{font-size:12px;color:var(--stone);margin-top:18px}
+
+/* ============ FOOTER ============ */
+footer{padding:clamp(56px,9vh,90px) 0 40px;border-top:1px solid var(--line)}
+.foot-top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:40px;margin-bottom:60px}
+.foot-brand .logo{color:var(--text-dark);font-size:30px}
+.foot-brand p{color:var(--text-mid);font-size:14px;margin-top:12px;max-width:280px}
+.foot-cols{display:flex;gap:clamp(40px,8vw,100px);flex-wrap:wrap}
+.foot-col h4{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--stone);margin-bottom:18px;font-family:var(--font-body);font-weight:500}
+.foot-col a,.foot-col p{display:block;color:var(--text-mid);font-size:14px;margin-bottom:10px;transition:color .3s}
+.foot-col a:hover{color:var(--accent)}
+.foot-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:14px;padding-top:30px;border-top:1px solid var(--line);font-size:12px;color:var(--stone);letter-spacing:.03em}
+
+/* ============ STICKY MOBILE BAR ============ */
+.mbar{
+  position:fixed;bottom:0;left:0;width:100%;z-index:700;display:none;
+  background:rgba(245,244,241,.95);backdrop-filter:blur(10px);
+  border-top:1px solid var(--line);
+  padding:12px 16px;
+  grid-template-columns:1fr 1fr;gap:10px;
+}
+.mbar a{
+  text-align:center;font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:500;
+  padding:13px;border-radius:2px;
+}
+.mbar .call{border:1px solid var(--line);color:var(--text-dark)}
+.mbar .book{background:var(--accent);color:#fff}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width:900px){
+  .amen-grid,.loc-grid,.upit-grid{grid-template-columns:1fr;gap:48px}
+  .apt{grid-template-columns:1fr;gap:36px}
+  .apt.rev .apt-media{order:0}
+  .apt-media .clip-img{aspect-ratio:4/3}
+  form .row{grid-template-columns:1fr;gap:0}
+}
+@media (max-width:760px){
+  nav.main{display:none}
+  .burger{display:flex}
+  body{padding-bottom:64px}
+  .mbar{display:grid}
+  header{padding:20px clamp(18px,5vw,30px)}
+  .gal-grid{grid-template-columns:repeat(2,1fr)}
+  .g1,.g2,.g3,.g4,.g5,.g6{grid-column:span 1;aspect-ratio:4/5}
+  .g1,.g6{grid-column:span 2;aspect-ratio:3/2}
+  .loc-facts{gap:30px}
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  [data-fade]{opacity:1!important;transform:none!important}
+  .hero-img{height:100%}
+}
+</style>
+</head>
+<body>
+
+<!-- PRELOADER -->
+<div class="preloader" id="preloader">
+  <div class="preloader-inner">
+    <div class="preloader-name">Dananić</div>
+    <div class="preloader-sub">Vodice</div>
+  </div>
+</div>
+
+<!-- CURSOR -->
+<div class="cursor"></div>
+<div class="cursor-ring"></div>
+
+<!-- HEADER -->
+<header id="header">
+  <a href="#top" class="logo">Dananić</a>
+  <nav class="main">
+    <a href="#apartmani">Apartmani</a>
+    <a href="#sadrzaji">Sadržaji</a>
+    <a href="#lokacija">Lokacija</a>
+    <a href="#galerija">Galerija</a>
+    <a href="tel:+385917203959" class="btn-upit">Upit</a>
+  </nav>
+  <div class="burger" id="burger"><span></span><span></span><span></span></div>
+</header>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#apartmani">Apartmani</a>
+  <a href="#sadrzaji">Sadržaji</a>
+  <a href="#lokacija">Lokacija</a>
+  <a href="#galerija">Galerija</a>
+  <a href="#upit">Upit</a>
+  <a href="tel:+385917203959" class="btn-upit">Nazovite +385 91 720 3959</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-img-wrap">
+    <img class="hero-img" src="https://loremflickr.com/1920/1280/apartment,interior,balcony?lock=412" alt="Pogled iz apartmana Dananić">
+  </div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow eyebrow"><span>Apartmani · Vodice · od 90 €</span></div>
+    <h1 id="heroTitle">Dananić<span style="color:var(--accent)">.</span></h1>
+    <p class="hero-tag">Dva mirna apartmana, tri minute od mora.</p>
+  </div>
+  <div class="scroll-ind"><span>Skrolaj</span><span class="line"></span></div>
+</section>
+
+<!-- MANIFEST -->
+<section class="sec-pad" id="manifest">
+  <div class="wrap manifest">
+    <span class="eyebrow" data-fade>Dobrodošli</span>
+    <p data-words>Dva moderna apartmana — <span class="muted">Plavi i Crveni</span> — u mirnom dijelu Vodica, tek tristo metara i tri minute lagane šetnje od plaže. Prostrani, opremljeni i okruženi vrtom mediteranskog bilja. Mjesto za odmor onakav kakav treba biti.</p>
+  </div>
+</section>
+
+<!-- APARTMANI -->
+<section class="sec-pad" id="apartmani">
+  <div class="wrap">
+    <div class="apart-head">
+      <div>
+        <span class="eyebrow" data-fade>Smještaj</span>
+        <h2 data-words>Apartmani</h2>
+      </div>
+      <p style="color:var(--text-mid);max-width:300px;font-size:15px" data-fade>Svaki 55 m², tri zvjezdice, do šest gostiju. Vlastiti parking i balkon s pogledom.</p>
+    </div>
+
+    <!-- PLAVI -->
+    <div class="apt">
+      <div class="apt-media">
+        <span class="badge" data-fade>3 ★ · 55 m²</span>
+        <div class="clip-img" data-reveal><img src="https://loremflickr.com/1000/1250/apartment,interior,modern?lock=201" alt="Apartman Plavi — interijer" loading="lazy"></div>
+      </div>
+      <div class="apt-text">
+        <span class="apt-tag" data-fade>Apartman</span>
+        <h3 data-words>Plavi<span class="small">tonovi mora i mira</span></h3>
+        <p class="desc" data-fade>Svijetao apartman s dvije spavaće sobe i balkonom okrenutim suncu. Opremljena kuhinja, klima u svakoj sobi i dovoljno prostora za obitelj ili društvo do šest osoba.</p>
+        <ul class="specs" data-fade>
+          <li><span class="k">Površina</span>55 m²</li>
+          <li><span class="k">Spavaće sobe</span>2 sobe</li>
+          <li><span class="k">Ležajevi</span>4 + 2</li>
+          <li><span class="k">Vanjski prostor</span>Balkon</li>
+          <li><span class="k">Klima · TV</span>Klima · SAT TV</li>
+          <li><span class="k">Parking</span>Privatni</li>
+        </ul>
+        <div class="price" data-fade>od 90 € <span>/ noć</span></div>
+        <a href="tel:+385917203959" class="apt-cta">Pošaljite upit <span class="arr">→</span></a>
+      </div>
+    </div>
+
+    <!-- CRVENI -->
+    <div class="apt rev">
+      <div class="apt-media">
+        <span class="badge" data-fade>3 ★ · 55 m²</span>
+        <div class="clip-img" data-reveal><img src="https://loremflickr.com/1000/1250/bedroom,apartment?lock=308" alt="Apartman Crveni — spavaća soba" loading="lazy"></div>
+      </div>
+      <div class="apt-text">
+        <span class="apt-tag" data-fade>Apartman</span>
+        <h3 data-words>Crveni<span class="small">toplina i mediteran</span></h3>
+        <p class="desc" data-fade>Topao, ugodan prostor s dvije spavaće sobe, kuhinjom i balkonom sa stolom i stolicama. Idealan za duži boravak — sve potrebno na dohvat ruke, a more na tri minute hoda.</p>
+        <ul class="specs" data-fade>
+          <li><span class="k">Površina</span>55 m²</li>
+          <li><span class="k">Spavaće sobe</span>2 sobe</li>
+          <li><span class="k">Ležajevi</span>4 + 2</li>
+          <li><span class="k">Vanjski prostor</span>Balkon</li>
+          <li><span class="k">Klima · TV</span>Klima · SAT TV</li>
+          <li><span class="k">Parking</span>Privatni</li>
+        </ul>
+        <div class="price" data-fade>od 90 € <span>/ noć</span></div>
+        <a href="tel:+385917203959" class="apt-cta">Pošaljite upit <span class="arr">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SADRŽAJI -->
+<section class="sec-pad amen" id="sadrzaji">
+  <div class="wrap amen-grid">
+    <div>
+      <span class="eyebrow" data-fade>Sadržaji</span>
+      <h2 data-words>Sve što treba za miran odmor.</h2>
+      <p class="amen-intro" data-fade>Apartmani su potpuno opremljeni, a u zajedničkom dvorištu nalaze se mediteranske biljke i roštilj — za duge ljetne večeri pod vedrim nebom.</p>
+    </div>
+    <ul class="amen-list" data-fade>
+      <li><span class="num">01</span><span class="lbl">Klimatizacija</span><span class="sub">svaka soba</span></li>
+      <li><span class="num">02</span><span class="lbl">Opremljena kuhinja</span><span class="sub">hladnjak</span></li>
+      <li><span class="num">03</span><span class="lbl">Balkon</span><span class="sub">stol i stolice</span></li>
+      <li><span class="num">04</span><span class="lbl">Privatni parking</span><span class="sub">uz objekt</span></li>
+      <li><span class="num">05</span><span class="lbl">Roštilj u dvorištu</span><span class="sub">zajednički</span></li>
+      <li><span class="num">06</span><span class="lbl">SAT TV</span><span class="sub">u dnevnom boravku</span></li>
+    </ul>
+  </div>
+</section>
+
+<!-- LOKACIJA -->
+<section class="sec-pad loc" id="lokacija">
+  <div class="wrap loc-grid">
+    <div>
+      <span class="eyebrow" data-fade>Lokacija</span>
+      <h2 data-words>Vodice, na tri minute od plaže.</h2>
+      <p data-fade>Apartmani se nalaze u mirnom dijelu Vodica, svega tristo metara od plaže — oko tri minute lagane šetnje. Rivom se ugodno stiže do centra mjesta, a u drugom smjeru prema susjednom Tribunju.</p>
+      <p data-fade>U blizini su trgovine, kafići i sve što je potrebno za bezbrižan boravak, dok mediteranski vrt s biljkama i roštiljem čini dvorište mjestom za opuštanje.</p>
+      <div class="loc-facts" data-fade>
+        <div class="f"><span class="big">300 m</span><span class="cap">do plaže</span></div>
+        <div class="f"><span class="big">3 min</span><span class="cap">hoda</span></div>
+        <div class="f"><span class="big">4–9</span><span class="cap">gostiju</span></div>
+      </div>
+    </div>
+    <div class="map-wrap clip-img" data-reveal>
+      <iframe title="Vodice — Apartmani Dananić" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps?q=Vodice,+Croatia&output=embed"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- GALERIJA -->
+<section class="sec-pad gal" id="galerija">
+  <div class="wrap">
+    <span class="eyebrow" data-fade>Galerija</span>
+    <h2 data-words>Pogledi i prostori.</h2>
+    <div class="gal-grid">
+      <div class="g1 clip-img" data-reveal><img src="https://loremflickr.com/1100/740/balcony,sea?lock=501" alt="Balkon s pogledom na more" loading="lazy"></div>
+      <div class="g2 clip-img" data-reveal><img src="https://loremflickr.com/700/940/kitchen,modern?lock=502" alt="Opremljena kuhinja" loading="lazy"></div>
+      <div class="g3 clip-img" data-reveal><img src="https://loremflickr.com/700/880/mediterranean,garden?lock=503" alt="Mediteranski vrt" loading="lazy"></div>
+      <div class="g4 clip-img" data-reveal><img src="https://loremflickr.com/1100/740/bedroom?lock=504" alt="Spavaća soba" loading="lazy"></div>
+      <div class="g5 clip-img" data-reveal><img src="https://loremflickr.com/640/640/apartment,interior?lock=505" alt="Dnevni boravak" loading="lazy"></div>
+      <div class="g6 clip-img" data-reveal><img src="https://loremflickr.com/1280/720/vodice,coast?lock=506" alt="Obala Vodica" loading="lazy"></div>
+    </div>
+  </div>
+</section>
+
+<!-- UPIT -->
+<section class="sec-pad upit" id="upit">
+  <div class="wrap upit-grid">
+    <div>
+      <span class="eyebrow" data-fade>Rezervacija</span>
+      <h2 data-words>Upit za boravak.</h2>
+      <p class="upit-intro" data-fade>Pošaljite nam termin i broj gostiju — javljamo se s dostupnošću i cijenom u najkraćem roku. Slobodno nas i nazovite.</p>
+      <div class="upit-contact" data-fade>
+        <a href="tel:+385917203959"><span class="k">Telefon</span><span class="v">+385 91 720 3959</span></a>
+        <a href="mailto:dananicmarijan@gmail.com"><span class="k">E-mail</span><span class="v">dananicmarijan@gmail.com</span></a>
+      </div>
+    </div>
+    <div data-fade>
+      <form action="mailto:dananicmarijan@gmail.com" method="post" enctype="text/plain">
+        <div class="field">
+          <label for="ime">Ime i prezime</label>
+          <input type="text" id="ime" name="Ime" placeholder="Vaše ime" required>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="dolazak">Dolazak</label>
+            <input type="date" id="dolazak" name="Dolazak" required>
+          </div>
+          <div class="field">
+            <label for="odlazak">Odlazak</label>
+            <input type="date" id="odlazak" name="Odlazak" required>
+          </div>
+        </div>
+        <div class="row">
+          <div class="field">
+            <label for="gosti">Broj gostiju</label>
+            <select id="gosti" name="Gosti">
+              <option>2 osobe</option>
+              <option>3 osobe</option>
+              <option>4 osobe</option>
+              <option>5 osoba</option>
+              <option>6 osoba</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="apartman">Apartman</label>
+            <select id="apartman" name="Apartman">
+              <option>Plavi</option>
+              <option>Crveni</option>
+              <option>Svejedno</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label for="poruka">Poruka</label>
+          <textarea id="poruka" name="Poruka" placeholder="Pitanja ili napomene"></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Pošalji upit</button>
+        <p class="form-note">Odgovaramo unutar 24 sata. Za brzu rezervaciju nazovite +385 91 720 3959.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <span class="logo">Dananić</span>
+        <p>Dva moderna apartmana u mirnom dijelu Vodica, na tri minute od plaže.</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4>Stranica</h4>
+          <a href="#apartmani">Apartmani</a>
+          <a href="#sadrzaji">Sadržaji</a>
+          <a href="#lokacija">Lokacija</a>
+          <a href="#galerija">Galerija</a>
+        </div>
+        <div class="foot-col">
+          <h4>Kontakt</h4>
+          <a href="tel:+385917203959">+385 91 720 3959</a>
+          <a href="mailto:dananicmarijan@gmail.com">dananicmarijan@gmail.com</a>
+          <p>Vodice, Hrvatska</p>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Apartmani Dananić · Vodice</span>
+      <span>Plavi &amp; Crveni · od 90 € / noć</span>
+    </div>
+  </div>
+</footer>
+
+<!-- STICKY MOBILE BAR -->
+<div class="mbar">
+  <a href="tel:+385917203959" class="call">Nazovite</a>
+  <a href="#upit" class="book">Upit</a>
+</div>
+
+<!-- SCRIPTS -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<script>
+(function(){
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const canHover = window.matchMedia('(hover: hover)').matches;
+
+  /* ---- PRELOADER ---- */
+  function runPreloader(then){
+    const pre = document.getElementById('preloader');
+    if(reduce){ pre.style.display='none'; then(); return; }
+    const tl = gsap.timeline({onComplete:()=>{
+      gsap.to(pre,{opacity:0,duration:.6,ease:'power2.out',onComplete:()=>{pre.style.display='none'; then();}});
+    }});
+    tl.to('.preloader-name',{opacity:1,y:0,duration:.9,ease:'power3.out'},0)
+      .from('.preloader-name',{y:16,duration:.9,ease:'power3.out'},0)
+      .to('.preloader-sub',{opacity:1,duration:.7,ease:'power2.out'},.35)
+      .to({},{duration:.6});
+  }
+
+  /* ---- HERO WORD SPLIT ---- */
+  function splitHero(){
+    const h = document.getElementById('heroTitle');
+    const txt = h.innerHTML;
+    h.innerHTML = '<span class="word"><span class="word-inner">'+txt+'</span></span>';
+  }
+
+  /* ---- GSAP MAIN ---- */
+  function initGSAP(){
+    if(typeof gsap==='undefined') return;
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* Lenis */
+    let lenis;
+    if(typeof Lenis!=='undefined' && !reduce){
+      lenis = new Lenis({duration:1.2, easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)), smoothWheel:true});
+      gsap.ticker.add(t=>lenis.raf(t*1000));
+      gsap.ticker.lagSmoothing(0);
+      lenis.on('scroll', ScrollTrigger.update);
+      window.__lenis = lenis;
+    }
+
+    /* hero intro */
+    if(!reduce){
+      gsap.from('.hero-eyebrow span',{yPercent:120,duration:1,ease:'power3.out',delay:.1});
+      gsap.from('#heroTitle .word-inner',{yPercent:120,duration:1.1,ease:'power3.out',delay:.25});
+      gsap.from('.hero-tag',{opacity:0,y:18,duration:1,ease:'power3.out',delay:.6});
+      gsap.from('.scroll-ind',{opacity:0,duration:1,delay:1});
+      /* hero parallax + breathe */
+      gsap.fromTo('.hero-img',{yPercent:0,scale:1.04},{yPercent:12,scale:1.1,ease:'none',
+        scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:1}});
+    }
+
+    /* word stagger reveal on headings */
+    gsap.utils.toArray('[data-words]').forEach(el=>{
+      const words = el.textContent.trim().split(/\s+/);
+      const html = words.map(w=>'<span class="reveal-line" style="display:inline-block"><span class="ri" style="display:inline-block">'+w+'</span></span>').join(' ');
+      el.innerHTML = html;
+      if(reduce) return;
+      gsap.from(el.querySelectorAll('.ri'),{yPercent:115,duration:.9,stagger:.07,ease:'power3.out',
+        scrollTrigger:{trigger:el,start:'top 85%'}});
+    });
+
+    /* fade items */
+    gsap.utils.toArray('[data-fade]').forEach(el=>{
+      if(reduce){el.style.opacity=1;el.style.transform='none';return;}
+      gsap.to(el,{opacity:1,y:0,duration:.9,ease:'power3.out',
+        scrollTrigger:{trigger:el,start:'top 88%'}});
+    });
+
+    /* clip-path image reveal */
+    gsap.utils.toArray('[data-reveal]').forEach(el=>{
+      if(reduce) return;
+      const img = el.querySelector('img,iframe');
+      gsap.fromTo(el,{clipPath:'inset(100% 0 0 0)'},{clipPath:'inset(0% 0 0 0)',duration:1.2,ease:'power3.inOut',
+        scrollTrigger:{trigger:el,start:'top 80%'}});
+      if(img && img.tagName==='IMG'){
+        gsap.fromTo(img,{scale:1.25},{scale:1,duration:1.4,ease:'power3.out',
+          scrollTrigger:{trigger:el,start:'top 80%'}});
+      }
+    });
+  }
+
+  /* ---- HEADER: hide on scroll down + light bg ---- */
+  function initHeader(){
+    const header = document.getElementById('header');
+    let last = 0;
+    function onScroll(){
+      const y = window.pageYOffset;
+      if(y>60) header.classList.add('scrolled'); else header.classList.remove('scrolled');
+      if(y>last && y>400 && !document.body.classList.contains('menu-open')) header.classList.add('hidden');
+      else header.classList.remove('hidden');
+      last = y;
+    }
+    window.addEventListener('scroll',onScroll,{passive:true});
+    onScroll();
+  }
+
+  /* ---- MOBILE MENU ---- */
+  function initMenu(){
+    const burger = document.getElementById('burger');
+    const links = document.querySelectorAll('#mobileMenu a');
+    burger.addEventListener('click',()=>{
+      document.body.classList.toggle('menu-open');
+      document.body.classList.toggle('no-scroll');
+    });
+    links.forEach(l=>l.addEventListener('click',()=>{
+      document.body.classList.remove('menu-open','no-scroll');
+    }));
+  }
+
+  /* ---- SMOOTH ANCHORS ---- */
+  function initAnchors(){
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click',e=>{
+        const id = a.getAttribute('href');
+        if(id.length<2) return;
+        const t = document.querySelector(id);
+        if(!t) return;
+        e.preventDefault();
+        if(window.__lenis) window.__lenis.scrollTo(t,{offset:-10});
+        else t.scrollIntoView({behavior:'smooth'});
+      });
+    });
+  }
+
+  /* ---- CUSTOM CURSOR ---- */
+  function initCursor(){
+    if(!canHover || reduce) return;
+    const dot = document.querySelector('.cursor');
+    const ring = document.querySelector('.cursor-ring');
+    const rx = gsap.quickTo(ring,'x',{duration:.5,ease:'power3'});
+    const ry = gsap.quickTo(ring,'y',{duration:.5,ease:'power3'});
+    const dx = gsap.quickTo(dot,'x',{duration:.15,ease:'power3'});
+    const dy = gsap.quickTo(dot,'y',{duration:.15,ease:'power3'});
+    window.addEventListener('mousemove',e=>{rx(e.clientX);ry(e.clientY);dx(e.clientX);dy(e.clientY);});
+    document.querySelectorAll('a,button,input,textarea,select,.burger').forEach(el=>{
+      el.addEventListener('mouseenter',()=>gsap.to(ring,{scale:1.6,borderColor:'var(--accent)',duration:.3}));
+      el.addEventListener('mouseleave',()=>gsap.to(ring,{scale:1,borderColor:'var(--stone)',duration:.3}));
+    });
+  }
+
+  /* ---- BOOT ---- */
+  window.addEventListener('load',()=>{
+    splitHero();
+    runPreloader(()=>{
+      initGSAP();
+      initCursor();
+    });
+    initHeader();
+    initMenu();
+    initAnchors();
+  });
+})();
+</script>
+</body>
+</html>
